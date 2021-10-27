@@ -23,7 +23,28 @@ namespace WebAPI.Controllers
         [HttpPost("sendmessage")]
         public IActionResult SendMessageToKafka(Produce produce)
         {
-            var result = _kafkaService.SendMessage(produce.Topic, produce.Message);
+            var result = _kafkaService.SendMessage(produce);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("sendmessages")]
+        public IActionResult SendMessagesToKafka(Produce produce)
+        {
+            var result = _kafkaService.SendMessages(produce);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        [HttpPost("createtopic")]
+        public IActionResult CreateTopic(Topic topic)
+        {
+            var result = _kafkaService.CreateTopic(topic);
             if (result.Success)
             {
                 return Ok(result);
